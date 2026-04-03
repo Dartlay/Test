@@ -1,17 +1,29 @@
-# testovoe
+# 📚 Book Subscription App
 
-A new Flutter project.
+> Тестовое задание: Flutter-приложение с онбордингом, пейволлом и управлением подпиской.
 
-## Getting Started
+## ✨ Реализованный функционал
+- **Онбординг:** Приветственный экран с иллюстрацией и кнопкой «Продолжить».
+- **Paywall:** Выбор тарифа (Месяц / Год со скидкой).
+- **Эмуляция покупки:** Визуальный процессинг (спиннер → статус «Оплачено» → автоматический переход).
+- **Главный экран:** Список книг.
+- **Персистентность:** При активной подписке приложение сразу открывает главный экран, минуя онбординг и пейволл при повторных запусках.
 
-This project is a starting point for a Flutter application.
+## 🛠 Технологический стек
+- **Framework:** Flutter 3.x / Dart
+- **Архитектура:** Clean Architecture (Domain / Data / Presentation)
+- **State Management:** `flutter_bloc`
+- **Navigation:** `go_router` (с защитой маршрутов через `redirect`)
+- **DI:** `get_it`
+- **Storage:** `shared_preferences`
+- **Codegen:** Отсутствует (ручные DTO для максимальной скорости сборки и отсутствия проблем с `build_runner`)
 
-A few resources to get you started if this is your first Flutter project:
+## 🏗 Архитектурные решения
+1. **Dependency Inversion:** Presentation слой зависит только от абстракций (`SubscriptionRepository`). Реализация и storage подключаются через DI-контейнер.
+2. **Router Protection:** `GoRouter.redirect` блокирует доступ к публичным экранам (`/onboarding`, `/paywall`) при активной подписке и наоборот. Это закрывает требование №4 на уровне навигации.
+3. **Fake Billing UX:** Эмуляция задержки сети (`Future.delayed`) + визуальная обратная связь (состояния `Loading` → `Success`) демонстрирует понимание клиентского UX.
+4. **Simplicity over Boilerplate:** Отказ от `freezed`/`json_serializable` в пользу ручных моделей. Для тестовой таски это даёт мгновенную компиляцию, нулевые конфликты версий и полную читаемость кода без скрытых сгенерированных файлов.
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# 3. Запускаем приложение
+flutter run
